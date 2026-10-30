@@ -17,24 +17,23 @@ describe('Product Management (Temple Offerings & Shivling Sthapana)', () => {
       expect(
         screen.getByText(/Shivling Sthapana & Rudrabhishek Offering/i)
       ).toBeInTheDocument();
-      expect(screen.getByText(/Maha Rudrabhishek & 108 Bilva Archana/i)).toBeInTheDocument();
       expect(screen.getByText('₹5,100')).toBeInTheDocument();
     });
   });
 
-  it('filters offerings by category tabs', async () => {
+  it('filters offerings by category tabs and displays empty state when category has no products', async () => {
     render(<ProductsPage />);
 
     await waitFor(() => {
       expect(screen.getByText(/Shivling Sthapana & Rudrabhishek Offering/i)).toBeInTheDocument();
     });
 
-    // Click on 'Puja' category button
+    // Click on 'Puja' category button (which currently has 0 products before admin adds one)
     const pujaBtn = screen.getByRole('button', { name: 'Puja' });
     fireEvent.click(pujaBtn);
 
     await waitFor(() => {
-      expect(screen.getByText(/Maha Rudrabhishek & 108 Bilva Archana/i)).toBeInTheDocument();
+      expect(screen.getByText(/No temple offerings found matching your criteria/i)).toBeInTheDocument();
       expect(
         screen.queryByText(/Shivling Sthapana & Rudrabhishek Offering/i)
       ).not.toBeInTheDocument();

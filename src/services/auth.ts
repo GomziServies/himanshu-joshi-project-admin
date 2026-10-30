@@ -66,7 +66,7 @@ export async function adminLogin(
       name: 'Sanctum Administrator',
       email: 'admin@temple.org',
       role: 'admin',
-      phone: '+91 98765 43210',
+      phone: '+91 98256 00778',
       status: 'active',
       isActive: true,
       createdAt: new Date().toISOString(),

@@ -189,8 +189,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 type="number"
                 name="price"
                 required
-                min={1}
-                value={formData.price || 0}
+                min={0}
+                value={formData.price !== undefined ? formData.price : 0}
                 onChange={handleChange}
                 className="w-full px-3 py-2 rounded-lg border border-[#E8DFD8] focus:ring-2 focus:ring-[#8B5A2B] focus:outline-none font-semibold text-[#5C3A21]"
               />

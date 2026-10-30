@@ -62,9 +62,9 @@ describe('Orders & Payment Receipts Management', () => {
 
     // Check modal contents
     await waitFor(() => {
-      expect(screen.getByText('Shree Somnath Sanctum Trust')).toBeInTheDocument();
+      expect(screen.getByText('Salahkareshwar Mahadev Tirth')).toBeInTheDocument();
       expect(
-        screen.getByText(/Dashashwamedh Ghat Road, Varanasi, Uttar Pradesh 221001/i)
+        screen.getByText(/408, Souvenir Flats, Gotri Sevasi Road, Vadodara, Gujarat - 390012/i)
       ).toBeInTheDocument();
       expect(screen.getByText(/Official Consecration Dakshina Receipt/i)).toBeInTheDocument();
       expect(screen.getByText('RCPT-20261029-7892')).toBeInTheDocument();

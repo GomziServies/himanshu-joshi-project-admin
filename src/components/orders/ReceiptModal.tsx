@@ -58,10 +58,16 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ receipt, isOpen, onC
           <div className="text-center border-b-2 border-[#5C3A21] pb-6 space-y-1">
             <span className="font-serif text-3xl font-bold text-[#5C3A21] block">ॐ</span>
             <h2 className="font-serif text-xl sm:text-2xl font-extrabold text-[#5C3A21] uppercase tracking-wider">
-              Shree Somnath Sanctum Trust
+              Salahkareshwar Mahadev Tirth
             </h2>
-            <p className="text-xs text-[#8B5A2B]">
-              Dashashwamedh Ghat Road, Varanasi, Uttar Pradesh 221001 • Regd. Trust No: TRUST/VAR/2026/V77
+            <p className="text-xs font-serif font-bold text-[#8B5A2B]">
+              श्री सलाहकारेश्वर महादेव तीर्थ • पुण्य पासपोर्ट (Punya Passport)
+            </p>
+            <p className="text-[11px] text-[#8B5A2B]">
+              408, Souvenir Flats, Gotri Sevasi Road, Vadodara, Gujarat - 390012 • Helpline: +91 98256 00778
+            </p>
+            <p className="text-[10px] font-mono text-[#5C3A21] pt-0.5">
+              PAN: <span className="font-bold">ABETS6872M</span> • Udyam: <span className="font-bold">UDYAM-GJ-24-0064289</span>
             </p>
             <p className="text-[11px] font-serif font-bold text-[#5C3A21] uppercase tracking-widest pt-1">
               Official Consecration Dakshina Receipt
