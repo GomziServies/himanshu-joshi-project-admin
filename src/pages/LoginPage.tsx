@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Lock, Mail, ShieldCheck, Sparkles } from 'lucide-react';
+import { ErrorNotice } from '../components/ErrorNotice';
+import { Diya, Toran } from '../components/layout/Ornaments';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('admin@temple.org');
-  const [password, setPassword] = useState('Admin@Temple108!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,100 +16,64 @@ export const LoginPage: React.FC = () => {
     setError(null);
     try {
       await login(email, password);
-    } catch (err: unknown) {
-      const errObj = err as Error;
-      setError(errObj.message || 'Login failed. Please verify admin credentials.');
-    } finally {
+    } catch (err) {
+      setError((err as Error).message);
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl border-2 border-[#E8DFD8] shadow-xl overflow-hidden">
-        {/* Brown Header */}
-        <div className="bg-[#5C3A21] p-8 text-white text-center border-b border-[#4A2E1A]">
-          <div className="w-16 h-16 rounded-2xl bg-white text-[#5C3A21] mx-auto flex items-center justify-center font-serif text-3xl font-bold shadow-md mb-3">
-            ॐ
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-sanctum">
+      <img
+        src="/salahkareshwar-shivling.jpg"
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover opacity-25"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-sanctum/40 to-sanctum" />
+      <Toran className="relative" />
+
+      <div className="relative flex flex-1 items-center justify-center px-4 pb-10">
+        <div className="w-full max-w-sm overflow-hidden rounded-t-[11rem] rounded-b-2xl border border-brass-500 bg-ivory-50 shadow-2xl">
+          <div className="jaali bg-sanctum px-6 pb-5 pt-9 text-center">
+            <Diya className="mx-auto h-14 w-14" />
+            <p lang="hi" className="mt-1 font-deva text-2xl leading-snug text-brass-300">सलाहकारेश्वर महादेव</p>
+            <h1 className="mt-1 font-title text-xl text-ivory-50">Admin login</h1>
           </div>
-          <span className="text-xs uppercase tracking-widest text-[#E8DFD8] font-semibold block">
-            Temple Administration Console
-          </span>
-          <h2 className="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
-            Sign In to Sanctum Portal
-          </h2>
-          <p className="text-xs text-[#E8DFD8] mt-1">
-            Brown & White Executive Management Suite
-          </p>
-        </div>
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-5 text-xs text-[#2D1E12]">
-          {error && (
-            <div role="alert" className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-medium">
-              {error}
-            </div>
-          )}
+          <form onSubmit={handleSubmit} className="space-y-4 p-6">
+            {error && <ErrorNotice message={error} />}
 
-          <div>
-            <label htmlFor="login-email" className="block font-medium text-[#5C3A21] mb-1">
-              Administrator Email
-            </label>
-            <div className="relative">
+            <div>
+              <label htmlFor="login-email" className="label">Email</label>
               <input
                 id="login-email"
                 type="email"
                 required
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@temple.org"
-                className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E8DFD8] focus:ring-2 focus:ring-[#8B5A2B] focus:outline-none text-sm text-[#2D1E12]"
+                className="input"
               />
-              <Mail className="w-4 h-4 text-[#8B5A2B] absolute left-3 top-3" />
             </div>
-          </div>
 
-          <div>
-            <label htmlFor="login-password" className="block font-medium text-[#5C3A21] mb-1">
-              Master Password
-            </label>
-            <div className="relative">
+            <div>
+              <label htmlFor="login-password" className="label">Password</label>
               <input
                 id="login-password"
                 type="password"
                 required
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-[#E8DFD8] focus:ring-2 focus:ring-[#8B5A2B] focus:outline-none text-sm text-[#2D1E12]"
+                className="input"
               />
-              <Lock className="w-4 h-4 text-[#8B5A2B] absolute left-3 top-3" />
             </div>
-          </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 rounded-lg bg-[#5C3A21] hover:bg-[#4A2E1A] text-white font-serif text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
-          >
-            <ShieldCheck className="w-4 h-4 text-[#C59B27]" />
-            <span>{isLoading ? 'Authenticating...' : 'Sign In as Administrator'}</span>
-          </button>
-
-          {/* Quick Demo Credentials Info */}
-          <div className="p-3.5 rounded-lg bg-[#FDFBF7] border border-[#E8DFD8] text-[#8B5A2B] text-[11px] space-y-1">
-            <p className="font-semibold text-[#5C3A21] flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#C59B27]" />
-              Default Administrator Credentials:
-            </p>
-            <p>
-              Email: <code className="bg-white px-1.5 py-0.5 rounded border border-[#E8DFD8] font-mono text-[#5C3A21]">admin@temple.org</code>
-            </p>
-            <p>
-              Password: <code className="bg-white px-1.5 py-0.5 rounded border border-[#E8DFD8] font-mono text-[#5C3A21]">Admin@Temple108!</code>
-            </p>
-          </div>
-        </form>
+            <button type="submit" disabled={isLoading} className="btn-primary w-full !py-2.5 text-lg">
+              {isLoading ? 'Logging in...' : 'Log in'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

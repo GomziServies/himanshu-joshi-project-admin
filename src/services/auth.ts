@@ -1,12 +1,14 @@
 import { AdminUser } from '../types';
 
-const API_BASE =
+export const API_BASE =
   import.meta.env.VITE_API_URL ||
   import.meta.env.VITE_API_BASE_URL ||
   'http://localhost:5000/api';
 
 export const TOKEN_KEY = 'mandir_admin_token';
 export const USER_KEY = 'mandir_admin_user';
+
+export const NETWORK_ERROR = 'Cannot reach the server. Please check it is running and try again.';
 
 export function getAuthHeader(): Record<string, string> {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -27,56 +29,29 @@ export function getStoredUser(): AdminUser | null {
   }
 }
 
-export function isAuthenticated(): boolean {
-  return !!getStoredToken();
-}
-
 export async function adminLogin(
   email: string,
   password: string
 ): Promise<{ token: string; user: AdminUser }> {
+  let res: Response;
   try {
-    const res = await fetch(`${API_BASE}/auth/admin-login`, {
+    res = await fetch(`${API_BASE}/auth/admin-login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-
-    if (res.ok) {
-      const data = await res.json();
-      if (data.success && data.token) {
-        localStorage.setItem(TOKEN_KEY, data.token);
-        localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-        return { token: data.token, user: data.user };
-      }
-    }
-  } catch (err) {
-    console.warn('Backend login endpoint unavailable, checking demo credentials fallback', err);
+  } catch {
+    throw new Error(NETWORK_ERROR);
   }
 
-  // Demo fallback credentials specified in prompt and project specs:
-  // admin@temple.org / Admin@Temple108! (and Admin@Temple2026)
-  if (
-    email.toLowerCase() === 'admin@temple.org' &&
-    (password === 'Admin@Temple108!' || password === 'Admin@Temple2026')
-  ) {
-    const demoToken = 'temple_admin_jwt_' + Date.now();
-    const demoUser: AdminUser = {
-      id: 'usr_admin_1',
-      name: 'Sanctum Administrator',
-      email: 'admin@temple.org',
-      role: 'admin',
-      phone: '+91 98256 00778',
-      status: 'active',
-      isActive: true,
-      createdAt: new Date().toISOString(),
-    };
-    localStorage.setItem(TOKEN_KEY, demoToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(demoUser));
-    return { token: demoToken, user: demoUser };
+  const data = await res.json().catch(() => null);
+  if (!res.ok || !data?.token) {
+    throw new Error(data?.message || 'Login failed. Please try again.');
   }
 
-  throw new Error('Invalid administrator email or password');
+  localStorage.setItem(TOKEN_KEY, data.token);
+  localStorage.setItem(USER_KEY, JSON.stringify(data.user));
+  return { token: data.token, user: data.user };
 }
 
 export function adminLogout(): void {
