@@ -11,8 +11,6 @@ const PAID_ORDER = {
     name: 'Amit Sharma',
     email: 'amit@example.com',
     phone: '9876543210',
-    gotra: 'Kashyapa',
-    address: { street: '12 Shiv Nagar', city: 'Vadodara', state: 'Gujarat', postalCode: '390012', country: 'India' },
   },
   items: [{ productTitle: 'Salahkareshwar Mahadev Shivling', quantity: 1, unitPrice: 501, subtotal: 501 }],
   totalAmount: 501,
@@ -147,10 +145,8 @@ describe('Payments page', () => {
 
     const dialog = screen.getByRole('dialog');
     expect(within(dialog).getByText('amit@example.com')).toBeInTheDocument();
-    expect(within(dialog).getByText('12 Shiv Nagar, Vadodara, Gujarat, 390012')).toBeInTheDocument();
     expect(within(dialog).getByText('pay_real_123')).toBeInTheDocument();
     expect(within(dialog).getByText('RCPT-20261030-ABC123')).toBeInTheDocument();
-    expect(within(dialog).getByText('Kashyapa')).toBeInTheDocument();
   });
 
   it('moves between pages', async () => {

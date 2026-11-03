@@ -17,15 +17,6 @@ const Row: React.FC<{ label: string; children: React.ReactNode }> = ({ label, ch
 
 export const PaymentDetailModal: React.FC<PaymentDetailModalProps> = ({ order, onClose }) => {
   const { customer } = order;
-  const address = [
-    customer.address?.street,
-    customer.address?.city,
-    customer.address?.state,
-    customer.address?.postalCode,
-  ]
-    .filter(Boolean)
-    .join(', ');
-
   return (
     <ModalShell title="Payment details" onClose={onClose}>
       <dl className="divide-y divide-ivory-200 px-5 py-2">
@@ -49,8 +40,6 @@ export const PaymentDetailModal: React.FC<PaymentDetailModalProps> = ({ order, o
         <Row label="Email">
           <a href={`mailto:${customer.email}`} className="underline decoration-brass-500 underline-offset-2">{customer.email}</a>
         </Row>
-        {customer.gotra && <Row label="Gotra">{customer.gotra}</Row>}
-        {address && <Row label="Address">{address}</Row>}
         <Row label="Order no.">{order.orderNumber}</Row>
         {order.receiptId?.receiptNumber && <Row label="Receipt no.">{order.receiptId.receiptNumber}</Row>}
         {order.razorpayPaymentId && <Row label="Payment ID">{order.razorpayPaymentId}</Row>}

@@ -39,14 +39,6 @@ export interface Order {
     name: string;
     email: string;
     phone: string;
-    gotra?: string;
-    address?: {
-      street?: string;
-      city?: string;
-      state?: string;
-      postalCode?: string;
-      country?: string;
-    };
   };
   items: OrderItem[];
   totalAmount: number;
